@@ -1,5 +1,5 @@
 {
-  "name": "comp-3018-intial-backend-app",
+  "name": "m3-demo",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -34,6 +34,8 @@
     "@types/express": "^5.0.6",
     "@types/morgan": "^1.9.10",
     "express": "^5.2.1",
+    "firebase-admin": "^13.6.1",
+    "joi": "^18.0.2",
     "morgan": "^1.10.1"
   }
 }
