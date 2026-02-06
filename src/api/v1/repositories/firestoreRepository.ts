@@ -14,13 +14,18 @@ interface FieldValuePair {
  * @returns {Promise<void>}
  * @throws {Error} - If an error occurs during document update.
  */
-export const updateDocument = async <T>(
+export const createDocument = async <T>(
     collectionName: string,
-    id: string,
     data: Partial<T>
-): Promise<void> => {
+): Promise<string> => {
     try {
-        await db.collection(collectionName).doc(id).update(data);
+        let docRef: FirebaseFirestore.DocumentReference;
+
+        docRef = await db.collection(collectionName).add(data);
+
+        // returns document id for the new post created in the firestore
+        return docRef.id;
+        
     } catch (error: unknown) {
         const errorMessage =
             error instanceof Error ? error.message : "Unknown error";

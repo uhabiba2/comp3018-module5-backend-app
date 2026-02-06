@@ -1,5 +1,6 @@
 import express, { Express } from "express";
 import morgan from "morgan";
+import router from "../src/api/v1/routes/postRoutes"
 
 const app: Express = express();
 
@@ -12,6 +13,10 @@ app.use(morgan("combined"));
 app.get("/", (req, res) => {
     res.send("Hello, World!");
 });
+
+
+// add API endpoint routes
+app.use("/api/v1/posts", router);
 
 // Export the app
 export default app;
