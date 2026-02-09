@@ -43,6 +43,66 @@ export const getAllPosts = async (): Promise<Post[]> => {
     }
 };
 
+// creating new post 
+export const getPostById = async (id: string): Promise<Post> => {
+    try {
+        const post = await firestoreRepository.getDocById<Post>(COLLECTION, id);
+
+        if(!post){
+            throw new Error("Post not found");
+        }
+
+        return post;
+
+    } catch (error: unknown) {
+        const errorMessage =
+            error instanceof Error ? error.message : "Unknown error";
+        throw new Error(
+            `Failed to retrieve the post: ${errorMessage}`
+        );
+    }
+};
+
+
+// updating a post 
+export const updatePost = async (id: string, 
+    postData:{userId: string, content: string
+}): Promise<Post | null> => {
+    try {
+        const updatePostData: Partial<Post> = {};
+        
+        if(postData.userId != undefined) {
+            updatePostData.userId = postData.userId;
+        }
+
+        if(postData.content != undefined) {
+            updatePostData.content = postData.content;
+        }
+
+        if(Object.keys(updatePostData).length === 0){
+            throw new Error("no fields provied to updated");
+        }        
+        
+        updatePostData.updatedAt = new Date(); 
+
+        await firestoreRepository.updateDocument(COLLECTION, id, updatePostData);
+
+        const updatedPost = await firestoreRepository.getDocById<Post>(COLLECTION, id);
+
+        if(!updatedPost){
+            throw new Error("Updated post not found");
+        }
+
+        return updatedPost;
+    } catch (error: unknown) {
+        const errorMessage =
+            error instanceof Error ? error.message : "Unknown error";
+        throw new Error(
+            `Failed to update the post: ${errorMessage}`
+        );
+    }
+};
+
 
 
 // ... other service functions (getPostById, updatePost, deletePost) ...

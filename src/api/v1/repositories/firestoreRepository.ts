@@ -28,6 +28,7 @@ export const createDocument = async <T>(
     }
 };
 
+// to get all documents in a collection
 export const getAllDocuments = async <T>(collectionName: string): Promise<T[]> => {
     try {
         const snapshot = await db.collection(collectionName).get();
@@ -43,6 +44,56 @@ export const getAllDocuments = async <T>(collectionName: string): Promise<T[]> =
             error instanceof Error ? error.message : "Unknown error";
         throw new Error(
             `Failed to retrieve the documents in ${collectionName}: ${errorMessage}`
+        );
+    }
+};
+
+// to get a single document by ID
+export const getDocById = async <T>(collectionName: string, docId: string): Promise<T | null> => {
+    try {
+
+        let docRef: FirebaseFirestore.DocumentReference;
+
+        docRef = await db.collection(collectionName).doc(docId);
+
+        /// get() function only reads data from docRef pointer
+        const snapshot = await docRef.get();
+
+        if(!snapshot)
+            return null;
+
+        return {
+            id: snapshot.id,
+            ...(snapshot.data() as T),
+        };
+        
+    } catch (error: unknown) {
+        const errorMessage =
+            error instanceof Error ? error.message : "Unknown error";
+        throw new Error(
+            `Failed to retrieve the documents in ${collectionName}: ${errorMessage}`
+        );
+    }
+};
+
+// to get a single document by ID
+export const updateDocument = async <T>(collectionName: string, 
+    docId: string,
+    data: Partial<T>
+): Promise<void> => {
+    try {
+
+        let docRef: FirebaseFirestore.DocumentReference;
+
+        docRef = await db.collection(collectionName).doc(docId);
+
+        await docRef.update(data);
+        
+    } catch (error: unknown) {
+        const errorMessage =
+            error instanceof Error ? error.message : "Unknown error";
+        throw new Error(
+            `Failed to update the documents in ${collectionName}: ${errorMessage}`
         );
     }
 };

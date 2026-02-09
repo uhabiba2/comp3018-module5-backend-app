@@ -35,3 +35,41 @@ export const getAllPostsHandler = async (
         next(error);
     }
 };
+
+
+// handles POST request to create new post
+export const getPostByIdHandler = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        const { id } = req.params;
+
+        const post = await postService.getPostById(id as string);
+
+        res.status(HTTP_STATUS.OK).json(successResponse({post}, "Post retrieved successfully"));
+    } catch (error: unknown) {
+        next(error);
+    }
+};
+
+
+// handles PUT request to update an existing post
+export const updatePostHandler = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        const { id } = req.params;
+        const {userId, content} = req.body;
+        const updateData = {userId, content};
+
+        const updatedPost = await postService.updatePost(id as string, updateData);
+
+        res.status(HTTP_STATUS.OK).json(successResponse({updatedPost}, "Post updated successfully"));
+    } catch (error: unknown) {
+        next(error);
+    }
+};

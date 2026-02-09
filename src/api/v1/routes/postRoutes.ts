@@ -7,7 +7,8 @@ const router = express.Router();
 
 router.post("/", validateRequest(postSchemas.create), postController.createPostHandler);
 router.get("/", postController.getAllPostsHandler);
-
+router.get("/:id", validateRequest(postSchemas.getById), postController.getPostByIdHandler);
+router.put("/:id", validateRequest(postSchemas.update), postController.updatePostHandler);
 
 
 
