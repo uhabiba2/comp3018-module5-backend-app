@@ -6,6 +6,7 @@ import { postSchemas } from "../validation/postSchemas";
 const router = express.Router();
 
 router.post("/", validateRequest(postSchemas.create), postController.createPostHandler);
+router.get("/", postController.getAllPostsHandler);
 
 
 

@@ -20,3 +20,18 @@ export const createPostHandler = async (
         next(error);
     }
 };
+
+// handles POST request to create new post
+export const getAllPostsHandler = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        const posts = await postService.getAllPosts();
+
+        res.status(HTTP_STATUS.OK).json(successResponse({posts}, "Posts retrieved successfully"));
+    } catch (error: unknown) {
+        next(error);
+    }
+};

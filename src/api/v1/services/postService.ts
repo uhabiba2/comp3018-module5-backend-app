@@ -27,4 +27,22 @@ export const createPost = async (postData: {userId: string, content: string}): P
     }
 };
 
+// creating new post 
+export const getAllPosts = async (): Promise<Post[]> => {
+    try {
+        const posts = await firestoreRepository.getAllDocuments<Post>(COLLECTION);
+
+        return posts;
+
+    } catch (error: unknown) {
+        const errorMessage =
+            error instanceof Error ? error.message : "Unknown error";
+        throw new Error(
+            `Failed to retrieve all posts: ${errorMessage}`
+        );
+    }
+};
+
+
+
 // ... other service functions (getPostById, updatePost, deletePost) ...
