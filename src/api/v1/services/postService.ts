@@ -27,7 +27,7 @@ export const createPost = async (postData: {userId: string, content: string}): P
     }
 };
 
-// creating new post 
+// to get all posts in a collection 
 export const getAllPosts = async (): Promise<Post[]> => {
     try {
         const posts = await firestoreRepository.getAllDocuments<Post>(COLLECTION);
@@ -43,7 +43,7 @@ export const getAllPosts = async (): Promise<Post[]> => {
     }
 };
 
-// creating new post 
+// to find an existing post by id
 export const getPostById = async (id: string): Promise<Post> => {
     try {
         const post = await firestoreRepository.getDocById<Post>(COLLECTION, id);
@@ -64,7 +64,7 @@ export const getPostById = async (id: string): Promise<Post> => {
 };
 
 
-// updating a post 
+// updating an existing post - userId or content
 export const updatePost = async (id: string, 
     postData:{userId: string, content: string
 }): Promise<Post | null> => {
@@ -103,6 +103,19 @@ export const updatePost = async (id: string,
     }
 };
 
+// deleteing an existing post 
+export const deletePost = async (id: string): Promise <void> => {
+    try {
+        await firestoreRepository.deleteDocument(COLLECTION, id);
+
+    } catch (error: unknown) {
+        const errorMessage =
+            error instanceof Error ? error.message : "Unknown error";
+        throw new Error(
+            `Failed to delete the post: ${errorMessage}`
+        );
+    }
+};
 
 
-// ... other service functions (getPostById, updatePost, deletePost) ...
+

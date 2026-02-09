@@ -6,7 +6,7 @@ interface FieldValuePair {
     fieldValue: FirestoreDataTypes;
 }
 
-// create new document
+// to create a new document
 export const createDocument = async <T>(
     collectionName: string,
     data: Partial<T>
@@ -76,7 +76,7 @@ export const getDocById = async <T>(collectionName: string, docId: string): Prom
     }
 };
 
-// to get a single document by ID
+// to update a single document by ID
 export const updateDocument = async <T>(collectionName: string, 
     docId: string,
     data: Partial<T>
@@ -98,4 +98,21 @@ export const updateDocument = async <T>(collectionName: string,
     }
 };
 
-// ... other repository functions (getDocumentById, createDocument, deleteDocument) ...
+
+// to delete an existing document
+export const deleteDocument = async <T>(collectionName: string, 
+    docId: string
+): Promise<void> => {
+    try {
+
+        await db.collection(collectionName).doc(docId).delete();
+        
+    } catch (error: unknown) {
+        const errorMessage =
+            error instanceof Error ? error.message : "Unknown error";
+        throw new Error(
+            `Failed to delete the documents in ${collectionName}: ${errorMessage}`
+        );
+    }
+};
+

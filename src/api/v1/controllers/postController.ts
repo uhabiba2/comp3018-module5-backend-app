@@ -21,7 +21,7 @@ export const createPostHandler = async (
     }
 };
 
-// handles POST request to create new post
+// handles GET request to read all posts
 export const getAllPostsHandler = async (
     req: Request,
     res: Response,
@@ -37,7 +37,7 @@ export const getAllPostsHandler = async (
 };
 
 
-// handles POST request to create new post
+// handles GET request to read a single post by ID
 export const getPostByIdHandler = async (
     req: Request,
     res: Response,
@@ -69,6 +69,24 @@ export const updatePostHandler = async (
         const updatedPost = await postService.updatePost(id as string, updateData);
 
         res.status(HTTP_STATUS.OK).json(successResponse({updatedPost}, "Post updated successfully"));
+    } catch (error: unknown) {
+        next(error);
+    }
+};
+
+
+// handles DELETE request to delete an existing post
+export const deletePostHandler = async (
+    req: Request,
+    res: Response,
+    next: NextFunction
+): Promise<void> => {
+    try {
+        const { id } = req.params;
+        
+        await postService.deletePost(id as string);
+
+        res.status(HTTP_STATUS.OK).json(successResponse({}, "Post deleted successfully"));
     } catch (error: unknown) {
         next(error);
     }
