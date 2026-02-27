@@ -1,22 +1,31 @@
-import express, { Express } from "express";
-import morgan from "morgan";
-import router from "../src/api/v1/routes/postRoutes"
+import express from "express";
+import {
+    accessLogger,
+    errorLogger,
+    consoleLogger,
+} from "./api/v1/middleware/logger";
+import errorHandler from "./api/v1/middleware/errorHandler";
+import router from "./api/v1/routes/postRoutes";
 
-const app: Express = express();
+const app = express();
 
-app.use(express.json()); //  use JSON body parsing
+// 1. Logging middleware (should be applied early in the middleware stack)
+if (process.env.NODE_ENV === "production") {
+    // In production, log to files
+    app.use(accessLogger);
+    app.use(errorLogger);
+} else {
+    // In development, log to console for immediate feedback
+    app.use(consoleLogger);
+}
 
-// Use Morgan for HTTP request logging
-app.use(morgan("combined"));
+// 2. Body parsing middleware
+app.use(express.json());
 
-// GET request at the app root
-app.get("/", (req, res) => {
-    res.send("Hello, World!");
-});
-
-
-// add API endpoint routes
+// 3. API Routes
 app.use("/api/v1/posts", router);
 
-// Export the app
+// 4. Global error handling middleware (MUST be applied last)
+app.use(errorHandler);
+
 export default app;

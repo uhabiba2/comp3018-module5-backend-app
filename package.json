@@ -22,6 +22,7 @@
   "description": "",
   "devDependencies": {
     "@types/jest": "^30.0.0",
+    "@types/morgan": "^1.9.10",
     "@types/node": "^25.2.0",
     "@types/supertest": "^6.0.3",
     "jest": "^30.2.0",
@@ -32,7 +33,6 @@
   },
   "dependencies": {
     "@types/express": "^5.0.6",
-    "@types/morgan": "^1.9.10",
     "express": "^5.2.1",
     "firebase-admin": "^13.6.1",
     "joi": "^18.0.2",
