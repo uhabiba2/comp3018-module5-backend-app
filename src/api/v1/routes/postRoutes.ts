@@ -5,30 +5,30 @@ import { postSchemas } from "../validation/postSchemas";
 import authenticate from "../middleware/authenticate";
 import isAuthorized from "../middleware/authorize";
 
-const router = express.Router();
+const postRouter = express.Router();
 
 // create new post with authentication and role-based authorization
-router.post("/", 
+postRouter.post("/", 
     authenticate,
     isAuthorized({ hasRole: ["admin", "manager"] }), 
     validateRequest(postSchemas.create),
     postController.createPostHandler);
 
 
-router.get("/", authenticate, postController.getAllPostsHandler);
-router.get("/:id", authenticate, validateRequest(postSchemas.getById), postController.getPostByIdHandler);
+postRouter.get("/", authenticate, postController.getAllPostsHandler);
+postRouter.get("/:id", authenticate, validateRequest(postSchemas.getById), postController.getPostByIdHandler);
 
 
-router.put("/:id", 
+postRouter.put("/:id", 
     authenticate,
     isAuthorized({ hasRole: ["admin", "manager"], allowSameUser: true }), 
     validateRequest(postSchemas.update), postController.updatePostHandler);
 
-router.delete("/:id", 
+postRouter.delete("/:id", 
     authenticate,
     isAuthorized({ hasRole: ["admin", "manager"] }),
     validateRequest(postSchemas.delete), postController.deletePostHandler);
 
 
 
-export default router;
+export default postRouter;

@@ -15,7 +15,7 @@ export const createPostHandler = async (
 
         const newPost = await postService.createPost(postData);
 
-        res.status(HTTP_STATUS.OK).json(successResponse({newPost}, "Post created successfully"));
+        res.status(HTTP_STATUS.CREATED).json(successResponse({newPost}, "Post created successfully"));
     } catch (error: unknown) {
         next(error);
     }

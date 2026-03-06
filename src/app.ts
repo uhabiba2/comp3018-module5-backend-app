@@ -5,7 +5,9 @@ import {
     consoleLogger,
 } from "./api/v1/middleware/logger";
 import errorHandler from "./api/v1/middleware/errorHandler";
-import router from "./api/v1/routes/postRoutes";
+import postRouter from "./api/v1/routes/postRoutes";
+import userRouter from "./api/v1/routes/userRoutes";
+import adminRouter from "./api/v1/routes/adminRoutes";
 
 const app = express();
 
@@ -23,7 +25,9 @@ if (process.env.NODE_ENV === "production") {
 app.use(express.json());
 
 // 3. API Routes
-app.use("/api/v1/posts", router);
+app.use("/api/v1/posts", postRouter);
+app.use("/api/v1/users", userRouter);
+app.use("/api/v1/admin", userRouter);
 
 // 4. Global error handling middleware (MUST be applied last)
 app.use(errorHandler);
