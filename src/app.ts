@@ -1,4 +1,6 @@
 import express from "express";
+import setupSwagger from "../config/swagger";
+
 import {
     accessLogger,
     errorLogger,
@@ -31,5 +33,7 @@ app.use("/api/v1/admin", userRouter);
 
 // 4. Global error handling middleware (MUST be applied last)
 app.use(errorHandler);
+
+setupSwagger(app);
 
 export default app;

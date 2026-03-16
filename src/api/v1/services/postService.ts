@@ -1,6 +1,6 @@
 import { Post } from "../models/postModel";
 import * as firestoreRepository from "../repositories/firestoreRepository";
-import { postSchemas } from "../validation/postSchemas";
+import { postSchemas } from "../validations/postSchemas";
 import { validateRequest } from "../middleware/validate";
 
 const COLLECTION = "posts";

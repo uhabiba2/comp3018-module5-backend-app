@@ -1,5 +1,36 @@
 import Joi, { ObjectSchema } from "joi";
 
+/**
+ * @openapi
+ * components:
+ *   schemas:
+ *     Post:
+ *       type: object
+ *       required:
+ *         - userId
+ *         - content
+ *       properties:
+ *         userId:
+ *           type: string
+ *           description: The user ID
+ *           example: "user123"
+ *         content:
+ *           type: string
+ *           description: The content of the post
+ *           example: "test content"
+ *         createdAt:
+ *           type: string
+ *           format: date-time
+ *           description: The date and time when the item was created
+ *           example: "2024-01-15T10:30:00Z"
+ *         updatedAt:
+ *           type: string
+ *           format: date-time
+ *           description: The date and time when the item was last updated
+ *           example: "2024-01-20T14:45:00Z"
+ */
+
+
 // Post operation schemas organized by request part
 export const postSchemas = {
     // POST /posts - Create new post
@@ -54,3 +85,4 @@ export const postSchemas = {
         }),
     },
 };
+
