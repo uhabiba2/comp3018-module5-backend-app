@@ -4,4 +4,4 @@ dist/
 # Logs
 logs/
 *.log
-comp3018-module4-firebase-adminsdk-fbsvc-34a8114031.json
+.env

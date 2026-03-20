@@ -1,6 +1,11 @@
 import express from "express";
-import setupSwagger from "../config/swagger";
+import helmet from "helmet";
+import dotenv from "dotenv";
 
+// Load environment variables BEFORE your internal imports!
+dotenv.config();
+
+import setupSwagger from "../config/swagger";
 import {
     accessLogger,
     errorLogger,
@@ -10,8 +15,13 @@ import errorHandler from "./api/v1/middleware/errorHandler";
 import postRouter from "./api/v1/routes/postRoutes";
 import userRouter from "./api/v1/routes/userRoutes";
 import adminRouter from "./api/v1/routes/adminRoutes";
+import { getHelmetConfig } from "../config/helmetConfig";
 
 const app = express();
+
+// Apply basic Helmet security
+// app.use(helmet());
+app.use(getHelmetConfig());
 
 // 1. Logging middleware (should be applied early in the middleware stack)
 if (process.env.NODE_ENV === "production") {
