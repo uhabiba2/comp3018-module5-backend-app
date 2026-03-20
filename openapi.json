@@ -55,13 +55,18 @@
         "type": "object",
         "required": [
           "uid",
-          "role"
+          "email"
         ],
         "properties": {
           "uid": {
             "type": "string",
             "description": "Unique identifier for the user",
             "example": "user_123abc"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "user@example.com"
           },
           "role": {
             "type": "string",
@@ -192,18 +197,18 @@
         "tags": [
           "Users"
         ],
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
         "parameters": [
           {
             "name": "uid",
-            "in": "query",
+            "in": "path",
             "required": true,
             "schema": {
-              "type": "string",
-              "enum": [
-                "admin",
-                "user",
-                "developer"
-              ]
+              "type": "string"
             },
             "description": "find the user by id"
           }
@@ -226,6 +231,15 @@
                 }
               }
             }
+          },
+          "401": {
+            "description": "Unauthorized - Missing or invalid token"
+          },
+          "403": {
+            "description": "Forbidden - Admin access required"
+          },
+          "404": {
+            "description": "User not found"
           }
         }
       }

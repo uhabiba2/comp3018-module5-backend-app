@@ -9,12 +9,16 @@ import Joi from "joi";
  *       type: object
  *       required:
  *         - uid
- *         - role
+ *         - email
  *       properties:
  *         uid:
  *           type: string
  *           description: Unique identifier for the user
  *           example: "user_123abc"
+ *         email:
+ *           type: string
+ *           format: email
+ *           example: "user@example.com"
  *         role:
  *           type: string
  *           enum: [user, admin, developer]
@@ -24,6 +28,7 @@ import Joi from "joi";
 // Your actual Joi validation schema
 export const userSchema = Joi.object({
     uid: Joi.string().required(),
+    email: Joi.string().required(),
     role: Joi.string().valid("user", "admin", "developer")
 });
 

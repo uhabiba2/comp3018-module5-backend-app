@@ -14,13 +14,14 @@ const userRouter: Router = express.Router();
  *   get:
  *     summary: Retrieve a single user information filtering by user ID
  *     tags: [Users]
+ *     security: 
+ *       - bearerAuth: []
  *     parameters:
  *       - name: uid
- *         in: query
+ *         in: path
  *         required: true
  *         schema:
  *           type: string
- *           enum: [admin, user, developer]
  *         description: find the user by id
  *     responses:
  *       '200':
@@ -34,6 +35,12 @@ const userRouter: Router = express.Router();
  *                   type: object
  *                   items:
  *                     $ref: '#/components/schemas/User'
+ *       '401':
+ *          description: Unauthorized - Missing or invalid token
+ *       '403':
+ *          description: Forbidden - Admin access required
+ *       '404':
+ *          description: User not found
  */
 // Only admins can view detailed user information
 userRouter.get(
