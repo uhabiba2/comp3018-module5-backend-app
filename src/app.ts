@@ -1,5 +1,6 @@
 import express from "express";
 import helmet from "helmet";
+import cors from "cors";
 import dotenv from "dotenv";
 
 // Load environment variables BEFORE your internal imports!
@@ -16,12 +17,16 @@ import postRouter from "./api/v1/routes/postRoutes";
 import userRouter from "./api/v1/routes/userRoutes";
 import adminRouter from "./api/v1/routes/adminRoutes";
 import { getHelmetConfig } from "../config/helmetConfig";
+import {getCorsOptions} from "../config/corsConfig";
 
 const app = express();
 
 // Apply basic Helmet security
 // app.use(helmet());
 app.use(getHelmetConfig());
+
+// apply environment specific cors config
+app.use(cors(getCorsOptions()));
 
 // 1. Logging middleware (should be applied early in the middleware stack)
 if (process.env.NODE_ENV === "production") {
